@@ -17,17 +17,20 @@ public class SanPhamService {
     }
 
     // 1. Lấy danh sách sản phẩm
-    public List<SanPham> getAll() {
+    public List<SanPham> getAll()
+    {
         return sanPhamRepository.findAll();
     }
 
     // 2. Tìm sản phẩm theo mã
-    public Optional<SanPham> getById(String maSP) {
+    public Optional<SanPham> getById(String maSP)
+    {
         return sanPhamRepository.findById(maSP);
     }
 
     // 3. Thêm sản phẩm
-    public SanPham create(SanPham sanPham) {
+    public SanPham create(SanPham sanPham)
+    {
         return sanPhamRepository.save(sanPham);
     }
 
