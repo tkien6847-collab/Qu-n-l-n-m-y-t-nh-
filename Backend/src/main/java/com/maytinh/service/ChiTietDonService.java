@@ -17,7 +17,8 @@ public class ChiTietDonService {
     }
 
     // Lấy danh sách chi tiết đơn hàng
-    public List<ChiTietDon> getAll() {
+    public List<ChiTietDon> getAll()
+    {
         return repository.findAll();
     }
 
@@ -28,19 +29,6 @@ public class ChiTietDonService {
                         new RuntimeException("Không tìm thấy chi tiết đơn hàng"));
     }
 
-    // Thêm chi tiết đơn hàng
-    public ChiTietDon create(ChiTietDon chiTietDon) {
-        return repository.save(chiTietDon);
-    }
-
-    // Cập nhật chi tiết đơn hàng
-    public ChiTietDon update(ChiTietDonId id, ChiTietDon chiTietMoi) {
-        ChiTietDon chiTietCu = getById(id);
-
-        // Cập nhật số lượng, đơn giá... theo Entity thực tế
-
-        return repository.save(chiTietCu);
-    }
 
     // Xóa chi tiết đơn hàng
     public void delete(ChiTietDonId id) {

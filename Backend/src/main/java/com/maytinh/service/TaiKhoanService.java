@@ -22,28 +22,32 @@ public class TaiKhoanService {
     // Tìm tài khoản theo mã
     public TaiKhoan getById(Integer maTaiKhoan) {
         return repository.findById(maTaiKhoan)
-                .orElseThrow(() ->
-                        new RuntimeException("Không tìm thấy tài khoản: " + maTaiKhoan));
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản: " + maTaiKhoan));
     }
 
     // Thêm tài khoản
-    public TaiKhoan create(TaiKhoan taiKhoan) {
+    public TaiKhoan create(TaiKhoan taiKhoan)
+    {
         return repository.save(taiKhoan);
     }
 
     // Cập nhật tài khoản
     public TaiKhoan update(Integer maTaiKhoan, TaiKhoan taiKhoanMoi) {
-        TaiKhoan taiKhoanCu = getById(maTaiKhoan);
+        TaiKhoan taiKhoanCu = repository.findById(maTaiKhoan)
+                .orElseThrow(() -> new RuntimeException("không thấy tài khoản"));
 
-        // Cập nhật các thuộc tính tại đây
-        // Ví dụ: taiKhoanCu.setTenDangNhap(taiKhoanMoi.getTenDangNhap());
+        taiKhoanCu.setMatKhau(taiKhoanMoi.getMatKhau());
+        taiKhoanCu.setTenDangNhap(taiKhoanMoi.getTenDangNhap());
 
         return repository.save(taiKhoanCu);
     }
 
     // Xóa tài khoản
     public void delete(Integer maTaiKhoan) {
-        repository.delete(getById(maTaiKhoan));
+        TaiKhoan taiKhoan = repository.findById(maTaiKhoan)
+                .orElseThrow(() -> new RuntimeException("không thấy tài khoản này"));
+        repository.delete(taiKhoan);
+
     }
 
 }

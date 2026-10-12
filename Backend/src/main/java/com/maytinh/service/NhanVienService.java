@@ -3,12 +3,14 @@ package com.maytinh.service;
 import com.maytinh.entity.NhanVien;
 import com.maytinh.repository.NhanVienRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;//tạo danh sách nhiều pần tử
 import java.util.Optional;//biểu diễn giá trị tồn tại hay ko tồn tại
 
 @Service
 //khai báo lớp xử lý nghiệp vụ
+@Transactional(readOnly = true)
 public class NhanVienService {
 
 
@@ -17,12 +19,14 @@ public class NhanVienService {
 
     // Nhận Repository để làm việc với database
 
-    public NhanVienService(NhanVienRepository nhanVienRepository) {
+    public NhanVienService(NhanVienRepository nhanVienRepository)
+    {
         this.nhanVienRepository = nhanVienRepository;
     }//ấn gener contructor là tạo đc auto
 
     // 1. Xem danh sách all nhân viên
-    public List<NhanVien> getAll() {
+    public List<NhanVien> getAll()
+    {
         return nhanVienRepository.findAll();
     }
 
@@ -34,6 +38,7 @@ public class NhanVienService {
     }
 
     // 3. Thêm nhân viên, kiểu dữ liệu dunng tn như entity
+    @Transactional
     public NhanVien create(NhanVien nhanVien)
     {
         return nhanVienRepository.save(nhanVien);
@@ -43,8 +48,9 @@ public class NhanVienService {
     public NhanVien update(String maNV, NhanVien nhanVienMoi) {
         return nhanVienRepository.findById(maNV)
                 .map(nhanVienCu -> {
-                    // Cập nhật các thuộc tính tại đây
-                    // Ví dụ: nhanVienCu.setHoTen(nhanVienMoi.getHoTen());
+                    nhanVienCu.setEmail(nhanVienMoi.getEmail());
+                    nhanVienCu.setsDT(nhanVienMoi.getsDT());
+                    nhanVienCu.setTenNV(nhanVienMoi.getTenNV());
 
                     return nhanVienRepository.save(nhanVienCu);
                 })
@@ -53,12 +59,10 @@ public class NhanVienService {
 
     // 5. Xóa nhân viên theo mã
     public void delete(String maNV) {
-        if (!nhanVienRepository.existsById(maNV)) {
-            throw new RuntimeException(
-                    "Không tìm thấy nhân viên có mã: " + maNV);
-        }
 
-        nhanVienRepository.deleteById(maNV);
+        NhanVien nhanVien = nhanVienRepository.findById(maNV)
+                .orElseThrow(() -> new RuntimeException("không có mã nhân viên "+maNV));
+        nhanVienRepository.delete(nhanVien);
     }
 
 

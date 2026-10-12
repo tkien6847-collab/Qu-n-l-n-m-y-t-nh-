@@ -5,14 +5,15 @@ import com.maytinh.repository.SanPhamRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class SanPhamService {
     private final SanPhamRepository sanPhamRepository;
 
     // Khởi tạo Repository
-    public SanPhamService(SanPhamRepository sanPhamRepository) {
+    public SanPhamService(SanPhamRepository sanPhamRepository)
+    {
         this.sanPhamRepository = sanPhamRepository;
     }
 
@@ -23,9 +24,10 @@ public class SanPhamService {
     }
 
     // 2. Tìm sản phẩm theo mã
-    public Optional<SanPham> getById(String maSP)
+    public SanPham getById(String maSP)
     {
-        return sanPhamRepository.findById(maSP);
+        return sanPhamRepository.findById(maSP)
+        .orElseThrow(()-> new RuntimeException("không thấy sản phẩm mã "+maSP));
     }
 
     // 3. Thêm sản phẩm
@@ -36,26 +38,26 @@ public class SanPhamService {
 
     // 4. Cập nhật sản phẩm
     public SanPham update(String maSP, SanPham sanPhamMoi) {
-        return sanPhamRepository.findById(maSP)
-                .map(sanPhamCu -> {
-                    // Cập nhật các thuộc tính sản phẩm tại đây
-                    // Ví dụ: sanPhamCu.setTenSP(sanPhamMoi.getTenSP());
+        SanPham sanPhamCu= sanPhamRepository.findById(maSP)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm có mã: " + maSP));
+
+                   sanPhamCu.setDonGia(sanPhamMoi.getDonGia());
+                   sanPhamCu.setMoTa(sanPhamMoi.getMoTa());
+                   sanPhamCu.setSoLuongTon(sanPhamMoi.getSoLuongTon());
+                   sanPhamCu.setTenSP(sanPhamMoi.getTenSP());
 
                     return sanPhamRepository.save(sanPhamCu);
-                })
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Không tìm thấy sản phẩm có mã: " + maSP));
+
+
+
+
     }
 
     // 5. Xóa sản phẩm
     public void delete(String maSP) {
-        if (!sanPhamRepository.existsById(maSP)) {
-            throw new RuntimeException(
-                    "Không tìm thấy sản phẩm có mã: " + maSP);
-        }
-
-        sanPhamRepository.deleteById(maSP);
+       SanPham sanPham = sanPhamRepository.findById(maSP)
+               .orElseThrow(() -> new RuntimeException("không thấy Id "+maSP));
+       sanPhamRepository.delete(sanPham);
     }
 
 }

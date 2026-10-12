@@ -12,7 +12,8 @@ public class VaiTroService {
 
     private final VaiTroRepository repository;
 
-    public VaiTroService(VaiTroRepository repository) {
+    public VaiTroService(VaiTroRepository repository)
+    {
         this.repository = repository;
     }
 
@@ -29,22 +30,25 @@ public class VaiTroService {
     }
 
     // Thêm vai trò
-    public VaiTro create(VaiTro vaiTro) {
+    public VaiTro create(VaiTro vaiTro)
+    {
         return repository.save(vaiTro);
     }
 
     // Cập nhật vai trò
     public VaiTro update(Integer maVaiTro, VaiTro vaiTroMoi) {
         VaiTro vaiTroCu = getById(maVaiTro);
-
-        // Cập nhật các thuộc tính của vai trò tại đây
-
+        vaiTroCu.setCode(vaiTroMoi.getCode());
+        vaiTroCu.setMaVaiTro(vaiTroMoi.getMaVaiTro());
+        vaiTroCu.setTenVaiTro(vaiTroMoi.getTenVaiTro());
         return repository.save(vaiTroCu);
     }
 
     // Xóa vai trò
     public void delete(Integer maVaiTro) {
-        repository.delete(getById(maVaiTro));
+        VaiTro vaiTro = repository.findById(maVaiTro)
+                .orElseThrow(() -> new RuntimeException("không thấy vai trò này"));
+        repository.delete(vaiTro);
     }
 
 

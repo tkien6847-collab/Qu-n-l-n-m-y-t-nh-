@@ -16,7 +16,8 @@ public class DonHangService {
     }
 
     // Lấy danh sách đơn hàng
-    public List<DonHang> getAll() {
+    public List<DonHang> getAll()
+    {
         return repository.findAll();
     }
 
@@ -28,7 +29,8 @@ public class DonHangService {
     }
 
     // Thêm đơn hàng
-    public DonHang create(DonHang donHang) {
+    public DonHang create(DonHang donHang)
+    {
         return repository.save(donHang);
     }
 
@@ -36,14 +38,20 @@ public class DonHangService {
     public DonHang update(String maDonHang, DonHang donHangMoi) {
         DonHang donHangCu = getById(maDonHang);
 
-        // Cập nhật các thuộc tính đơn hàng tại đây
+        donHangCu.setTrangThai(donHangMoi.getTrangThai());
+        donHangCu.setKhachHang(donHangMoi.getKhachHang());
+        donHangCu.setNgayDat(donHangMoi.getNgayDat());
+
 
         return repository.save(donHangCu);
     }
 
     // Xóa đơn hàng
-    public void delete(String maDonHang) {
-        repository.delete(getById(maDonHang));
+    public void delete(String maDonHang)
+    {
+        DonHang donHang = repository.findById(maDonHang)
+                .orElseThrow(()-> new RuntimeException("không thấy mã "+maDonHang));
+        repository.delete(donHang);
     }
 
 }
