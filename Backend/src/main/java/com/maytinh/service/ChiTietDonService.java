@@ -30,8 +30,5 @@ public class ChiTietDonService {
     }
 
 
-    // Xóa chi tiết đơn hàng
-    public void delete(ChiTietDonId id) {
-        repository.delete(getById(id));
-    }
+
 }

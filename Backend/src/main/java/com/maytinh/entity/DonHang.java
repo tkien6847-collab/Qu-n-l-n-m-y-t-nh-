@@ -20,7 +20,9 @@ public class DonHang {
     @ManyToOne
     @JoinColumn(name="MaKH")
     private KhachHang khachHang;
+    public DonHang(){
 
+    }
     public DonHang(String maDonHang, KhachHang khachHang, BigDecimal tongTien, String trangThai, LocalDateTime ngayDat) {
         this.maDonHang = maDonHang;
         this.khachHang = khachHang;

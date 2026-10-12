@@ -29,15 +29,12 @@ public class VaiTroService {
                         new RuntimeException("Không tìm thấy vai trò: " + maVaiTro));
     }
 
-    // Thêm vai trò
-    public VaiTro create(VaiTro vaiTro)
-    {
-        return repository.save(vaiTro);
-    }
 
     // Cập nhật vai trò
     public VaiTro update(Integer maVaiTro, VaiTro vaiTroMoi) {
-        VaiTro vaiTroCu = getById(maVaiTro);
+        VaiTro vaiTroCu = repository.findById(maVaiTro)
+                        .orElseThrow(() -> new RuntimeException("không tìm thấy người này"));
+
         vaiTroCu.setCode(vaiTroMoi.getCode());
         vaiTroCu.setMaVaiTro(vaiTroMoi.getMaVaiTro());
         vaiTroCu.setTenVaiTro(vaiTroMoi.getTenVaiTro());

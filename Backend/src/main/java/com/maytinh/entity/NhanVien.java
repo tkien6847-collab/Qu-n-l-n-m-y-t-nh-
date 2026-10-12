@@ -3,7 +3,7 @@ package com.maytinh.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table (name="KhachHang")
+@Table (name="NhanVien")
 
 public class NhanVien {
     @Id

@@ -64,5 +64,8 @@ public class TaiKhoan {
     public void setTenDangNhap(String tenDangNhap) {
         this.tenDangNhap = tenDangNhap;
     }
+
+
+
 }
 // secu log in out 

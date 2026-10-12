@@ -37,7 +37,7 @@ public class TaiKhoanService {
                 .orElseThrow(() -> new RuntimeException("không thấy tài khoản"));
 
         taiKhoanCu.setMatKhau(taiKhoanMoi.getMatKhau());
-        taiKhoanCu.setTenDangNhap(taiKhoanMoi.getTenDangNhap());
+
 
         return repository.save(taiKhoanCu);
     }
